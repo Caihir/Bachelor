@@ -1,0 +1,33 @@
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  isVJ: Boolean!
+  isOrga: Boolean!
+  soirees: [Soiree!]! @relation(name: "SoireeToUser", onDelete: CASCADE)
+  comments: [Comment!]! @relation(name: "CommentToUser", onDelete: CASCADE)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Soiree {
+  id: ID! @id
+  title: String!
+  # date: DateTime!
+  body: String!  
+  published: Boolean!
+  author: User! @relation(name: "SoireeToUser", onDelete: SET_NULL)
+  comments: [Comment!]! @relation(name: "CommentToSoiree", onDelete: CASCADE)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Comment {
+  id: ID! @id
+  text: String!
+  author: User! @relation(name: "CommentToUser", onDelete: SET_NULL)
+  soiree: Soiree! @relation(name: "CommentToSoiree", onDelete: SET_NULL)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
